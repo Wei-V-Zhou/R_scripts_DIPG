@@ -1,15 +1,15 @@
 library(ggplot2)
 library(gplots)
 library(Seurat)
+library(dplyr)
 library(plyr)
 load("GSE102130_gSet_saving.Rdata")
 p <- DimPlot(scset, reduction = "umap", pt.size = 0.5)
-ggsave("final_umap.pdf", plot = q, height = 5 width = 10)
+ggsave("final_umap.pdf", plot = p, height = 7.5, width = 10)
 current.cluster.ids <- c(0:18)
 scset.markers %>% group_by(cluster) %>% top_n(n = 1, wt = avg_logFC)
-new.cluster.ids <- c("RPS4Y1", "MEG3", "CRABP1", "IFI6", "ITM2A", "CA10",
-"UBE2C", "MT2A", "AQP4", "S100A11", "CRABP1", "COL9A1", "PTGDS", "CAPN3",
-"PLP1", "CD74", "APOE", "LEFTY2", "MBP")
+new.cluster.ids <- c("RPS4Y1", "MEG3", "CRABP1", "IFI6", "ITM2A", "CA10", "UBE2C", "MT2A", "AQP4", 
+"S100A11", "CRABP1", "COL9A1", "PTGDS", "CAPN3", "PLP1", "CD74", "APOE", "LEFTY2", "MBP")
 scset@active.ident <- plyr::mapvalues( x= scset@active.ident, from = current.cluster.ids, to = new.cluster.ids)
 q <- DimPlot(object = scset, reduction = "umap", do.label = TRUE, pt.size = 0.5)
-ggsave("final_umap.pdf", plot = q, height = 5, width = 10)
+ggsave("final_umap.pdf", plot = q, height = 7.5, width = 10)
